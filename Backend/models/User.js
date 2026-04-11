@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-<<<<<<< HEAD
     role: { type: String, enum: ["job_seeker", "employer"], required: true, },
     savedJobs: [
       {
@@ -15,15 +14,6 @@ const userSchema = new mongoose.Schema(
     ],
   },
   { timestamps: true },
-=======
-    role: {
-      type: String,
-      enum: ["job_seeker", "employer"],
-      required: true,
-    },
-  },
-  { timestamps: true }
->>>>>>> c3d9cc3 (Final project update)
 );
 
 export default mongoose.model("User", userSchema);
