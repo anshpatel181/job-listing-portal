@@ -9,6 +9,7 @@ export const SeekerDashboard = () => {
   const [allJobs, setAllJobs] = useState([]);
   const [applications, setApplications] = useState([]);
   const [savedJobs, setSavedJobs] = useState([]);
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL
 
   const profileCompletion = 70;
 
@@ -27,7 +28,7 @@ export const SeekerDashboard = () => {
     const fetchApplications = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/applications/my",
+          `${BASE_URL}/api/applications/my`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

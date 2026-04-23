@@ -7,12 +7,13 @@ import InlineLoader from "../components/loaders/InlineLoader";
 export const AppliedJobs = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/applications/my",
+          `${BASE_URL}/api/applications/my`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

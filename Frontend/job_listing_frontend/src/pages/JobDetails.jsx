@@ -12,12 +12,12 @@ export const JobDetails = () => {
   const [loading, setLoading] = useState(true);
   const [applied, setApplied] = useState(false);
   const [loadingApply, setLoadingApply] = useState(false);
-
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL
           
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/jobs/${id}`);
+        const res = await fetch(`${BASE_URL}/api/jobs/${id}`);
         const data = await res.json();
 
         if (!res.ok) {

@@ -7,12 +7,13 @@ import InlineLoader from "../components/loaders/InlineLoader";
 export const EmployerDashboard = () => {
   const [stats, setStats] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/applications/employer/stats",
+          `${BASE_URL}/api/applications/employer/stats`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -11,12 +11,13 @@ export const ApplicantsList = () => {
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [actionLoadingId, setActionLoadingId] = useState(null);
+    const BASE_URL = import.meta.env.VITE_BACKEND_URL
 
     useEffect(() => {
         const fetchApplicants = async () => {
             try {
                 const res = await fetch(
-                    `http://localhost:5000/api/applications/job/${jobId}`,
+                    `${BASE_URL}/api/applications/job/${jobId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -46,7 +47,7 @@ export const ApplicantsList = () => {
             setActionLoadingId(applicationId);
 
             const res = await fetch(
-                `http://localhost:5000/api/applications/${applicationId}/status`,
+                `${BASE_URL}/api/applications/${applicationId}/status`,
                 {
                     method: "PATCH",
                     headers: {
