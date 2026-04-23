@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api/jobs";
+// const API_URL = "http://localhost:5000/api/jobs";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL + '/api/jobs';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -10,7 +11,7 @@ const getAuthHeaders = () => {
 };
 
 export const createJob = async (jobData) => {
-  const res = await fetch(API_URL, {
+  const res = await fetch(BASE_URL, {
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(jobData),
@@ -24,7 +25,7 @@ export const createJob = async (jobData) => {
 };
 
 export const getMyJobs = async () => {
-  const res = await fetch(`${API_URL}/my`, {
+  const res = await fetch(`${BASE_URL}/my`, {
     method: "GET",
     headers: getAuthHeaders(),
   });
@@ -37,7 +38,7 @@ export const getMyJobs = async () => {
 };
 
 export const updateJob = async (jobId, jobData) => {
-  const res = await fetch(`${API_URL}/${jobId}`, {
+  const res = await fetch(`${BASE_URL}/${jobId}`, {
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(jobData),
@@ -51,7 +52,7 @@ export const updateJob = async (jobId, jobData) => {
 };
 
 export const deleteJob = async (jobId) => {
-  const res = await fetch(`${API_URL}/${jobId}`, {
+  const res = await fetch(`${BASE_URL}/${jobId}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -67,7 +68,7 @@ export const searchJobs = async (filters) => {
   const params = new URLSearchParams(filters);
 
   const res = await fetch(
-    `http://localhost:5000/api/jobs?${params.toString()}`
+    `${BASE_URL}?${params.toString()}`
   );
 
   const data = await res.json();
@@ -81,7 +82,7 @@ export const searchJobs = async (filters) => {
 
 export const toggleJobStatus = async (id) => {
   const res = await fetch(
-    `${API_URL}/${id}/status`,
+    `${BASE_URL}/${id}/status`,
     {
       method: "PATCH",
       headers: getAuthHeaders()

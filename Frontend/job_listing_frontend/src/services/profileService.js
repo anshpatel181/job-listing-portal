@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api/profile";
+// const API_URL = "http://localhost:5000/api/profile";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL + '/api/profile';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -10,7 +11,7 @@ const getAuthHeaders = () => {
 };
 
 export const getProfile = async () => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(BASE_URL, {
     method: "GET",
     headers: getAuthHeaders(),
   });
@@ -23,7 +24,7 @@ export const getProfile = async () => {
 };
 
 export const updateProfile = async (profileData) => {
-  const response = await fetch(API_URL, {
+  const response = await fetch(BASE_URL, {
     method: "PUT",
     headers: getAuthHeaders(),
     body: JSON.stringify(profileData),

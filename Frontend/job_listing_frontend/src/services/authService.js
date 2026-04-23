@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:5000/api/auth";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL + '/api/auth';
 
 export const registerUser = async (userData) => {
-  const response = await fetch(`${API_URL}/register`, {
+  const response = await fetch(`${BASE_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (loginData) => {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${BASE_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

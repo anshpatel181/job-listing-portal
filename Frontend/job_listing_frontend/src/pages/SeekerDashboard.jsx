@@ -18,11 +18,6 @@ export const SeekerDashboard = () => {
     profileViews: 12,
   };
 
-  const recentApplications = [
-    { id: 1, title: "Frontend Developer", company: "Tech Corp" },
-    { id: 2, title: "React Engineer", company: "Startup Inc" },
-  ];
-
   useEffect(() => {
     const fetchAllJobs = async () => {
       const res = await searchJobs();

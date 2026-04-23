@@ -26,8 +26,6 @@ export const AppliedJobs = () => {
           toast.error("Failed to fetch applications");
         }
 
-        console.log(data);  
-
         setApplications(data);
       } catch (error) {
         toast.error(error.message);

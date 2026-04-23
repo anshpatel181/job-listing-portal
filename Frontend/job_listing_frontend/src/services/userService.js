@@ -1,7 +1,9 @@
+const BASE_URL = import.meta.env.VITE_BACKEND_URL + '/api/users';
+
 export const toggleSaveJob = async (jobId) => {
   const token = localStorage.getItem("token");
   
-  const res = await fetch(`http://localhost:5000/api/users/save-job/${jobId}`,
+  const res = await fetch(`${BASE_URL}/save-job/${jobId}`,
     {
       method: "POST",
       headers: {
@@ -24,7 +26,7 @@ export const getSavedJobs = async () => {
   const token = localStorage.getItem("token");
 
   const res = await fetch(
-    "http://localhost:5000/api/users/saved-jobs",
+  `${BASE_URL}/saved-jobs`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
