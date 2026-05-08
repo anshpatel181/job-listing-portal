@@ -27,11 +27,9 @@ export const EditJobs = () => {
     useEffect(() => {
         const fetchJob = async () => {
             try {
-                console.log("Route param id:", id);
-                const jobs = await getMyJobs();
-                console.log("Jobs from API:", jobs);
-                const job = jobs.find((j) => j._id.toString() === id.toString());
-
+                const jobs = await getMyJobs();                
+                const job = jobs.jobs.find((j) => j._id.toString() === id.toString());
+                
                 if (!job) {
                     toast.error("Job not found");
                     navigate("/employer/jobs");
