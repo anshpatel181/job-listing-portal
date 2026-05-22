@@ -34,9 +34,10 @@ export const SeekerProfile = () => {
     queryKey: ["seekerProfile"],
     queryFn: getProfile
   })
-
+  
   useEffect(() => {
     if (data) {
+      
       setSeekerDetails({
         fName: data.fullName || "",
         email: data.email || "",
@@ -265,7 +266,7 @@ export const SeekerProfile = () => {
               </div>
             )}
 
-            <p className="mt-2 ">Uplodded Resume</p>
+            <p className="mt-2 ">Uploaded Resume</p>
             {data?.resumeUrl && (
               <div className="my-4 flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-4 py-3">
                 <div className="flex items-center gap-2 text-sm text-green-700">

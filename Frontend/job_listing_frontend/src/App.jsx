@@ -23,6 +23,9 @@ const SavedJobs = lazy(() => import("./pages/SavedJobs").then(m => ({ default: m
 const AppliedJobs = lazy(() => import("./pages/AppliedJobs").then(m => ({ default: m.AppliedJobs })));
 const ApplicantsList = lazy(() => import("./pages/ApplicantsList").then(m => ({ default: m.ApplicantsList })));
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LinkedinCallback from "./pages/LinkedInCallback";
+import { SendEmailPage } from "./pages/SendEmailPage";
+import { ResetPassword } from "./pages/ResetPassword";
 
 AOS.init({
   duration: 800,
@@ -48,6 +51,24 @@ const Router = createBrowserRouter([
     element: <PublicRoute><Login /></PublicRoute>,
     errorElement: <ErrorPage />
   },
+  
+  {
+    path: "/linkedin/callback",
+    element: <PublicRoute><LinkedinCallback /></PublicRoute>,
+    errorElement: <ErrorPage />
+  },
+  
+  {
+    path: "/sendEmail",
+    element: <PublicRoute><SendEmailPage /></PublicRoute>,
+    errorElement: <ErrorPage />
+  },
+
+  {
+    path: "/reset-password/:token",
+    element: <PublicRoute><ResetPassword /></PublicRoute>,
+    errorElement: <ErrorPage />
+  },  
 
   {
     path: "/seeker/dashboard",

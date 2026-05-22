@@ -5,6 +5,8 @@ import { registerUser } from "../services/authService";
 import { PublicNavbar } from "../components/PublicNavbar";
 import { toast } from "react-toastify";
 import ButtonLoader from "../components/loaders/ButtonLoader";
+import { FaGoogle, FaLinkedin } from "react-icons/fa";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export const Registration = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +16,7 @@ export const Registration = () => {
     role: "",
   });
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL
 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +56,10 @@ export const Registration = () => {
     setIsLoading(true);
     const data = await registerUser(formData)
 
+    if(data.success === false) {
+      toast.error(data.message || "Server error, Please try again")
+    }
+
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.role);
 
@@ -76,26 +83,72 @@ export const Registration = () => {
     }, 2000)
   }
 
+  const handleGoogleRegister = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log("Google Login Successful!", tokenResponse);
+
+      try {
+        const res = await fetch(`${BASE_URL}/api/auth/googleRegister`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: tokenResponse.access_token, role: formData.role })
+        });
+
+        const data = await res.json();
+        
+        if(data.success === false) {
+          toast.error(data.message)
+          navigate("/register")
+          return;
+        }
+        
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
+
+        if(data.role === "job_seeker") {
+          toast.success("You have registered successfully")
+          navigate("/seeker/dashboard", { replace: true })
+        } 
+        
+        if(data.role === "employer") {
+          toast.success("You have registered successfully")
+          navigate("/employer/dashboard", { replace: true })
+        }
+
+      } catch (error) {
+        toast.error("Google authentication failed on server");
+      }
+    },
+    onError: (error) => {
+      console.log("Google Login Failed", error);
+      toast.error("Google login pop-up failed");
+    }
+  });
+
+  const handleLinkedinRegister = () => {
+    
+    const clientId = import.meta.env.VITE_LINKEDIN_CLIENT_ID
+
+    const redirectUri = encodeURIComponent("http://localhost:5173/linkedin/callback")
+
+    const scope = encodeURIComponent("openid profile email")
+
+    const randomToken = crypto.randomUUID();
+
+    const state = `${randomToken}__${formData.role}`
+
+    sessionStorage.setItem("linkedin_csrf_token", randomToken)
+    window.location.href = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}&role=${formData.role}`;
+  }
+
   return (
     <div className="bg-slate-50 min-h-screen flex flex-col dark:bg-slate-900">
       <PublicNavbar />
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-slate-100 px-4">
         <div
           className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 sm:p-8
-                transition-all duration-300 hover:shadow-2xl"
+                transition-all duration-300 hover:shadow-2xl my-4"
         >
-
-          {toast.Message && (
-            <div
-              className={`mb-4 rounded-lg px-4 py-2 text-sm font-medium text-center
-              ${toast.type === "success"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-                }`}
-            >
-              {toast.Message}
-            </div>
-          )}
 
           <h1 className="text-2xl font-bold text-center text-slate-800 mb-6">
             Create Account
@@ -215,19 +268,45 @@ export const Registration = () => {
            hover:bg-blue-700 hover:shadow-lg active:scale-[0.98]
            transition-all duration-200"
             >
-              {isLoading ? <ButtonLoader/> : "Register"}
+              {isLoading ? <ButtonLoader /> : "Register"}
             </button>
           </form>
 
-          <p className="text-sm text-center text-slate-600 mt-6">
-            Already have an account?
-            <NavLink
-              to="/login"
-              className="text-blue-600 font-medium hover:underline"
-            >
-              Login
-            </NavLink>
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-slate-500">Or Sign Up with</span>
+              </div>
+            </div>
+
+            <div className="mt-6 flex gap-2">
+              <button
+                type="button"
+                onClick={() => formData.role === "" ? toast.error("Please select a role", "error") : handleGoogleRegister()}
+                className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+              >
+                <FaGoogle className="w-5 h-5 text-red-500" />
+                Google
+              </button>
+
+              <button
+                type="button"
+                onClick={() => formData.role === "" ? toast.error("Please select a role", "error") : handleLinkedinRegister()}
+                className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+              >
+                <FaLinkedin className="w-5 h-5 text-blue-700" />
+                LinkedIn
+              </button>
+            </div>
+          </div>
+
+          <p className="text-sm text-center text-slate-600 mt-8">Already have an account?
+            <NavLink to="/login" className="text-blue-600 font-semibold hover:underline"> Login</NavLink>
           </p>
+
         </div>
       </div>
     </div>

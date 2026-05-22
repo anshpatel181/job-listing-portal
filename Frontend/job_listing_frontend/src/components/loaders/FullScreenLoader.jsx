@@ -1,8 +1,8 @@
-const FullScreenLoader = ({job}) => {
+const FullScreenLoader = () => {
   return (
     <div className="fullscreen-loader">
       <div className="spinner"></div>
-      <p>Loading dashboard...</p>
+      <p>Loading...</p>
     </div>
   );
 };

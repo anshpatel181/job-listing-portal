@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
         ref: "Job",
       },
     ],
+    method: { type: String, enum: ["manual", "google", "linkedin"], default: "manual", required: true }
   },
   { timestamps: true },
 );

@@ -7,6 +7,8 @@ export const LogoutButton = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     navigate("/", { replace: true });
+    location.reload();
+    
   };
 
   return <button onClick={logout}>Logout</button>;
