@@ -109,7 +109,7 @@ export const Login = () => {
 
     const clientId = import.meta.env.VITE_LINKEDIN_CLIENT_ID;
 
-    const redirectUri = encodeURIComponent("http://localhost:5173/linkedin/callback")
+    const redirectUri = encodeURIComponent("https://project1-job-listing-frontend.vercel.app/linkedin/callback")
 
     const scope = encodeURIComponent("openid profile email")
 
