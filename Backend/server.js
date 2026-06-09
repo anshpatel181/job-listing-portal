@@ -18,6 +18,10 @@ await connectCloudinary();
 
 app.use(helmet())
 app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  next();
+});
 app.use(express.json()); //this middleware is used if data coming from frontend is of application/json type and after that this middleware transform json.stringify data coming from frontend into js object and attaches it to req.body.
 
 app.use("/api/auth", authRoutes);
