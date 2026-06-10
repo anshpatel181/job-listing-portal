@@ -46,9 +46,7 @@ const fallbackClient = {
   }
 };
 
-// ----------------------------------------------------
-// Unified Cache Service Interface
-// ----------------------------------------------------
+
 export const cacheService = {
   set: async (key, value, expirySeconds) => {
     if (redis) {

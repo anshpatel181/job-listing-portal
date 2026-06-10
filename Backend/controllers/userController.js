@@ -40,7 +40,7 @@ export const getSavedJobs = async (req, res) => {
     const user = await User.findById(req.user.id).populate("savedJobs");
 
     res.status(200).json(user.savedJobs);
-  } catch (error) {
+  } catch (error) {    
     res.status(500).json({ message: "Failed to fetch saved jobs" });
   }
 };

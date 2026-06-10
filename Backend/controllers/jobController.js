@@ -1,8 +1,7 @@
+import { cacheService } from "../config/redisClient.js";
 import Job from "../models/Job.js";
 
-
 export const createJob = async (req, res) => {
-  
   try {
     const job = await Job.create({
       employer: req.user.id,
@@ -60,18 +59,16 @@ export const updateJob = async (req, res) => {
       return res.status(404).json({ message: "Job not found" });
     }
 
-    if (job.employer.toString() !== req.user.id) { 
+    if (job.employer.toString() !== req.user.id) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
     Object.assign(job, req.body);
     await job.save();
 
-    const updatedJob = await Job.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
     res.json(updatedJob);
   } catch (error) {
@@ -101,36 +98,38 @@ export const deleteJob = async (req, res) => {
 
 export const getFilteredJobs = async (req, res) => {
   try {
-        
     const { keyword, location, type, limit, currentPage } = req.query;
-    
+
     let query = {};
 
     if (keyword) {
-      query.$text = { $search: keyword }
+      query.$text = { $search: keyword };
     }
 
     if (location) {
-      query.jobLoc = { $regex: location, $options: "i" };
+      query.jobLoc = { $regex: `^${location}`, $options: "i" };
     }
 
     if (type) {
       query.jobType = type;
     }
 
-    let skip = currentPage * 5 - 5
+    let skip = currentPage * 5 - 5;
 
-    const totalJobs = await Job.countDocuments(query)
-    const jobs = await Job.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit);
-
+    const [totalJobs, jobs] = await Promise.all([
+      Job.countDocuments(query),
+      Job.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean().select("jobTitle jobLoc jobType minSalary maxSalary createdAt"),
+    ]);
     
-    res.status(200).json({jobs, totalJobs, totalPages: Math.ceil(totalJobs / 5)});
+    res
+      .status(200)
+      .json({ jobs, totalJobs, totalPages: Math.ceil(totalJobs / 5) });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch jobs" });
   }
 };
 
-  export const getJobById = async (req, res) => {
+export const getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
 

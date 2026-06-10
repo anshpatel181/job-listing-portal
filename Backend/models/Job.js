@@ -25,7 +25,7 @@ const jobSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-jobSchema.index({ jobTitle: 'text', jobDesc: 'text' })                                            //this is a text index in which jobTitle and jobDesc will be broken into individual words and then stop words will be removed like we, are, a, who and then it applied stemming which means it chops the words down to their root form like "developing becomes develop", "applications become applic" now all this root words are added into one giant dictionary which will be stored in mongodb memory mapping words to Job IDs.
+jobSchema.index({ jobTitle: 'text', jobDesc: 'text' }) //this is a text index in which jobTitle and jobDesc will be broken into individual words and then stop words will be removed like we, are, a, who and then it applied stemming which means it chops the words down to their root form like "developing becomes develop", "applications become applic" now all this root words are added into one giant dictionary which will be stored in mongodb memory mapping words to Job IDs.
 jobSchema.index({ employer: 1, createdAt: -1}) 
 
 export default mongoose.model("Job", jobSchema);

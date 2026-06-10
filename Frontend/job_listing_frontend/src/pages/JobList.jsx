@@ -8,6 +8,7 @@ import InlineLoader from "../components/loaders/InlineLoader";
 import EmptyState from "../components/common/EmptyState";
 import { FaArrowLeft, FaArrowRight, FaSearch } from "react-icons/fa";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
+import { formatDistanceToNow } from "date-fns";
 
 export const JobList = () => {
   const [keyword, setKeyword] = useState("");
@@ -50,7 +51,7 @@ export const JobList = () => {
 
   const {data, isPending, isError, error} = useQuery({
     queryKey: ["jobs", debouncedKeyword, debouncedLocation, jobType, urlJobType, currentPage],
-    queryFn: () => searchJobs({ keyword: debouncedKeyword, location: debouncedLocation, type: jobType, limit: 5, currentPage })
+    queryFn: () => searchJobs({ keyword: debouncedKeyword, location: debouncedLocation, type: jobType, limit: 5, currentPage }),
   })
 
   if(isError) {
@@ -176,7 +177,7 @@ export const JobList = () => {
                       </div>
 
                       <p className="text-slate-600 text-sm line-clamp-2">
-                        {job.jobDesc}
+                        Posted {formatDistanceToNow(new Date(job.createdAt), {addSuffix: true} )}
                       </p>
                     </div>
 

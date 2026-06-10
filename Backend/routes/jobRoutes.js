@@ -20,5 +20,4 @@ router.put("/:id", protect, updateJob);
 router.delete("/:id", protect, deleteJob);
 router.patch("/:id/status", protect, toggleJobStatus);
 
-
 export default router;
