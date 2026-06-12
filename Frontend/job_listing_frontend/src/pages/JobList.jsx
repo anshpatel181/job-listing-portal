@@ -222,9 +222,9 @@ export const JobList = () => {
           {
             data?.jobs.length > 0 && !isPending && (
               <div className="flex justify-center items-center gap-2 mt-6">
-                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1} className={` border-2 px-4 py-2 inline-flex items-center gap-1 transition rounded ${currentPage <= 1 ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparant" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"}`}> <FaArrowLeft className="w-3 h-3" /> Prev</button>
+                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1} className={` border-2 px-4 py-2 inline-flex items-center gap-1 transition rounded ${currentPage <= 1 ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparent" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"}`}> <FaArrowLeft className="w-3 h-3" /> Prev</button>
                 <p className="text-slate-600 font-medium px-4">Page {currentPage} of {data.totalPages}</p>
-                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage >= data.totalPages} className={`border-2 px-4 py-2 inline-flex items-center gap-1 transition rounded ${currentPage >= data.totalPages ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparant" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"}`}>Next <FaArrowRight className="w-3 h-3" /> </button>
+                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage >= data.totalPages} className={`border-2 px-4 py-2 inline-flex items-center gap-1 transition rounded ${currentPage >= data.totalPages ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparent" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"}`}>Next <FaArrowRight className="w-3 h-3" /> </button>
               </div>
             )
           }
