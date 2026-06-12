@@ -132,7 +132,7 @@ export const MyJobs = () => {
                   title="You haven't posted any jobs yet"
                   description="Start hiring by creating your first job listing."
                   actionText="Post New Job"
-                  actionLink="/employer/jobs/new"
+                  actionLink="/employer/post-job"
                 />
               ) : (
                 <EmptyState
@@ -211,7 +211,7 @@ export const MyJobs = () => {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage <= 1}
-                className={`border border-2 rounded px-4 py-2 inline-flex items-center gap-1 transition ${currentPage <= 1 ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparent" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"
+                className={`border-2 rounded px-4 py-2 inline-flex items-center gap-1 transition ${currentPage <= 1 ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparent" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"
                   }`}
               >
                 <FaArrowLeft className="w-3 h-3" /> Prev
@@ -224,7 +224,7 @@ export const MyJobs = () => {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage >= data?.totalPages}
-                className={`border border-2 rounded px-4 py-2 inline-flex items-center gap-1 transition ${currentPage >= data?.totalPages ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparent" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"
+                className={`border-2 rounded px-4 py-2 inline-flex items-center gap-1 transition ${currentPage >= data?.totalPages ? "bg-slate-300 text-slate-500 cursor-not-allowed border-transparent" : "bg-blue-600 text-white hover:bg-blue-700 border-blue-600 cursor-pointer shadow-sm"
                   }`}
               >
                 Next <FaArrowRight className="w-3 h-3" />
