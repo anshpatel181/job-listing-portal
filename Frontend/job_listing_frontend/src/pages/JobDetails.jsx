@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import FullScreenLoader from "../components/loaders/FullScreenLoader";
 import { JobCard } from "../components/JobCard";
 import { useCallback } from "react";
+import { FaAlignLeft, FaArrowLeft } from "react-icons/fa";
 
 export const JobDetails = () => {
   const { id } = useParams();
@@ -82,9 +83,9 @@ export const JobDetails = () => {
 
           <NavLink
             to="/jobs"
-            className="inline-block text-sm text-blue-600 hover:underline"
+            className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
           >
-            ← Back to Jobs
+            <FaArrowLeft className="w-3 h-3" /> Back to Jobs
           </NavLink>
 
           <JobCard job={job} applied={applied} handleApply={handleApply} loadingApply={loadingApply} />
