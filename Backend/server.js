@@ -35,15 +35,6 @@ app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-app.get("/ping", (req, res) => {
-  res.send("pong");
-});
-
-app.get("/dbtest", async (req, res) => {
-  const jobs = await Job.find().limit(5).lean();
-  res.json(jobs);
-});
-
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))

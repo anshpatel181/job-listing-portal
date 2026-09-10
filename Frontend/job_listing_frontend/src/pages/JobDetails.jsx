@@ -50,7 +50,6 @@ export const JobDetails = () => {
   }, [id]);
   
   const handleApply = useCallback(async () => {
-  
     try {
       setLoadingApply(true);
       await applyToJob(job._id);

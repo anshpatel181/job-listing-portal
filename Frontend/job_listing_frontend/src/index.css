@@ -1,6 +1,139 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+} */
+
+:root {
+  /* Backgrounds */
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --muted-surface: #f1f5f9;
+
+  /* Text */
+  --foreground: #0f172a;
+  --muted-foreground: #64748b;
+
+  /* Borders */
+  --border: #e2e8f0;
+
+  /* Brand */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+
+  /* Secondary brand */
+  --secondary: #4f46e5;
+  --secondary-hover: #4338ca;
+
+  /* Status */
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+
+  /* Shadows */
+  --shadow-color: rgb(15 23 42 / 0.08);
+}
+
+.dark {
+  /* Backgrounds */
+  --background: #0f172a;
+  --surface: #111827;
+  --card: #1e293b;
+  --muted-surface: #1e293b;
+
+  /* Text */
+  --foreground: #f8fafc;
+  --muted-foreground: #94a3b8;
+
+  /* Borders */
+  --border: #334155;
+
+  /* Brand */
+  --primary: #60a5fa;
+  --primary-hover: #93c5fd;
+  --primary-foreground: #0f172a;
+
+  /* Secondary brand */
+  --secondary: #818cf8;
+  --secondary-hover: #a5b4fc;
+
+  /* Status */
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  /* Shadows */
+  --shadow-color: rgb(0 0 0 / 0.25);
+}
+
+/* GLOBAL */
+html {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+/* COMMON ELEMENTS */
+hr {
+  border-color: var(--border);
+}
+
+input,
+textarea,
+select {
+  background-color: var(--surface);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted-foreground);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+  outline-color: var(--primary);
+}
+
+/* SELECTION */
+::selection {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
 
 .fullscreen-loader {
   position: fixed;

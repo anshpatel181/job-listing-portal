@@ -86,7 +86,6 @@ export const login = async (req, res) => {
 export const googleRegister = async (req, res) => {
 
   try {
-
     const { token, role } = req.body
 
     if (!token) {
@@ -250,8 +249,8 @@ export const getEmail = async (req, res) => {
       return res.status(400).json({ success: false, message: "Please Provide an email to generate OTP" })
     } 
     
-    const rateLimitKey = `ratelimit:email:${req.ip}:${email.toLowerCase().trim()}` //here we don't used direct client ip or direct email instead we used mix of them because suppose we use only email and if attacker may know user email then they can request with that email and if that email reaches maximum request then real user who owns email can't request and support we used only ip then for example if both user are connected to same public wifi and requesting something then because of both user's ip is same requests will be blocked even after first user has made request two times and second user made request three times and in our case we are allowing 5 req in 1 min to individual user and that's why we have used email + ip 
-    const { success } = await ratelimit.limit(rateLimitKey) // here req.ip provides user's ip address coming from frontend
+    const rateLimitKey = `ratelimit:email:${req.ip}:${email.toLowerCase().trim()}` //here we don't used direct client ip or direct email instead we used mix of them because suppose we use only email and if attacker may know user email then they can request with that email and if that email reaches maximum request then real user who owns email can't request and support we used only ip then for example if both user are connected to same public wifi and requesting something then because of both user's ip is same requests will be blocked even after first user has made request two times and second user made request three times and in our case we are allowing 5 req in 1 min to individual user and that's why we have used email + ip and here req.ip provides user's ip address coming from frontend
+    const { success } = await ratelimit.limit(rateLimitKey) 
 
     if (!success) {
       return res.status(429).json({
@@ -304,7 +303,7 @@ export const verifyOtp = async (req, res) => {
     const userExists = await User.findOne({email})
 
     if(!userExists) {
-      return res.status(400).json({success: false, message: "User not found, please regiister first"})
+      return res.status(400).json({success: false, message: "User not found, please register first"})
     }
     
     const hashedOtp = crypto.createHash("sha256").update(otp.toString()).digest("hex")

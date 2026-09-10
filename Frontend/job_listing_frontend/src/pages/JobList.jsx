@@ -54,6 +54,10 @@ export const JobList = () => {
     queryFn: () => searchJobs({ keyword: debouncedKeyword, location: debouncedLocation, type: jobType, limit: 5, currentPage }),
   })
 
+  if(data) {
+    console.log(data);
+  }
+
   if(isError) {
     toast.error("Failed to load jobs")
     console.log(error);
@@ -95,7 +99,7 @@ export const JobList = () => {
         <div className="max-w-7xl mx-auto space-y-8">
 
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">
+            <h1 className="text-3xl font-bold text-slate-700">
               Find Your Next Job
             </h1>
             <p className="text-slate-500 mt-1">
@@ -149,7 +153,7 @@ export const JobList = () => {
             </div>
           </div>
 
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-600">
             Showing <span className="font-medium">{data?.jobs.length || 0} </span>
             job{data?.jobs.length !== 1 && "s"}
           </p>
@@ -169,6 +173,10 @@ export const JobList = () => {
                       <h2 className="text-xl font-semibold text-slate-800">
                         {job.jobTitle}
                       </h2>
+                      
+                      <p className="text-sm text-gray-500">
+                        {job.employerProfileId.companyName}
+                      </p>
 
                       <div className="flex flex-wrap gap-3 text-sm text-slate-600">
                         <span>📍 {job.jobLoc}</span>

@@ -1,4 +1,3 @@
-import { cacheService } from "../config/redisClient.js";
 import Job from "../models/Job.js";
 
 export const createJob = async (req, res) => {
@@ -118,7 +117,7 @@ export const getFilteredJobs = async (req, res) => {
 
     const [totalJobs, jobs] = await Promise.all([
       Job.countDocuments(query),
-      Job.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean().select("jobTitle jobLoc jobType minSalary maxSalary createdAt"),
+      Job.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean().populate("employerProfileId", "companyName website").select("jobTitle jobLoc jobType minSalary maxSalary createdAt"),
     ]);
     
     res

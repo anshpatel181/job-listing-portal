@@ -23,7 +23,7 @@ export const SeekerProfile = () => {
 
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState("");
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const inputClass =
     "w-full border border-slate-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500";
@@ -34,10 +34,9 @@ export const SeekerProfile = () => {
     queryKey: ["seekerProfile"],
     queryFn: getProfile
   })
-  
+
   useEffect(() => {
     if (data) {
-      
       setSeekerDetails({
         fName: data.fullName || "",
         email: data.email || "",
@@ -83,6 +82,7 @@ export const SeekerProfile = () => {
     formData.append("experience", seekerDetails.experience)
     formData.append("education", seekerDetails.education)
     updateProfileMutation.mutate(formData)
+    setNotInputChange(true)
   };
 
   const handleResumeChange = (e) => {
@@ -115,6 +115,7 @@ export const SeekerProfile = () => {
       setDownloadUrl(url);
     }
   }, [data]);
+  
 
   if (isPending) {
     return <FullScreenLoader />
@@ -126,13 +127,36 @@ export const SeekerProfile = () => {
 
       <div className="min-h-screen bg-slate-100 p-4 sm:p-6">
         <form onSubmit={handleSubmit} className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-800">
-              Job Seeker Profile
-            </h1>
-            <p className="text-sm text-slate-500">
-              Keep your profile updated to get better job matches
-            </p>
+
+          <div className="flex justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-slate-800">
+                Job Seeker Profile
+              </h1>
+              <p className="text-sm text-slate-500">
+                Keep your profile updated to get better job matches
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSaving}
+              className={`px-6 rounded-lg font-semibold transition
+                ${isSaving
+                  ? "bg-slate-400 cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
+                }`}
+            >
+              {isSaving && resumeFile ? (
+                <div className="mt-3 flex items-center gap-2 text-sm text-blue-600">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                  </svg>
+                  Uploading resume to cloud...
+                </div>
+              ) : "Save Changes"}
+            </button>
           </div>
 
           <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
@@ -246,7 +270,7 @@ export const SeekerProfile = () => {
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-lg file:border-0
                 file:bg-blue-50 file:text-blue-700
-                hover:file:bg-blue-100" 
+                hover:file:bg-blue-100"
             />
 
             {resumeError && (
@@ -283,7 +307,7 @@ export const SeekerProfile = () => {
                     rel="noopener noreferrer"
                     className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline"
                   >
-                    Download <FaFileDownload size={16} className="inline-flex mr-2 mb-1 hover:underline"/> 
+                    Download <FaFileDownload size={16} className="inline-flex mr-2 mb-1 hover:underline" />
                   </a>
                   <a
                     href={data.resumeUrl}
@@ -301,28 +325,6 @@ export const SeekerProfile = () => {
           {message && (
             <p className="text-sm font-medium text-green-600">{message}</p>
           )}
-
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={isSaving}
-              className={`px-6 py-2 rounded-lg font-semibold transition
-                ${isSaving
-                  ? "bg-slate-400 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-                }`}
-            >
-              {isSaving && resumeFile ? (
-                <div className="mt-3 flex items-center gap-2 text-sm text-blue-600">
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                  </svg>
-                  Uploading resume to cloud...
-                </div>
-              ) : "Save Changes"}
-            </button>
-          </div>
         </form>
       </div>
     </>

@@ -4,6 +4,8 @@ const jobSchema = new mongoose.Schema(
   {
     employer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 
+    employerProfileId: {type: mongoose.Schema.Types.ObjectId, ref: "Profile", required: true},
+
     jobTitle: { type: String, required: true, trim: true },
 
     jobDesc: { type: String, required: true },
