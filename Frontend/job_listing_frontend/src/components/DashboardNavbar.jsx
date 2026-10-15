@@ -59,7 +59,7 @@ export const DashboardNavbar = () => {
             <>
               <NavLink to="/employer/dashboard" onClick={() => setIsOpen(false)} className={navLinkClass}>Dashboard</NavLink>
               <NavLink to="/employer/jobs" onClick={() => setIsOpen(false)} className={navLinkClass}>My Jobs</NavLink>
-              <NavLink to="/employer/jobs/new" onClick={() => setIsOpen(false)} className={navLinkClass}>Post Job</NavLink>
+              <NavLink to="/employer/post-job" onClick={() => setIsOpen(false)} className={navLinkClass}>Post Job</NavLink>
               <NavLink to="/employer/profile" onClick={() => setIsOpen(false)} className={navLinkClass}>Company</NavLink>
             </>
           )}

@@ -12,13 +12,17 @@ const jobSchema = new mongoose.Schema(
 
     jobRes: { type: String, required: true },
 
-    jobQual: { type: String, required: true },
+    minJobQual: { type: String, required: true },
+    
+    preferredJobQual: { type: String, default: "" },  
 
     jobLoc: { type: String, required: true, index: true },
+    
+    minSalary: { type: Number, default: 0 },
 
-    minSalary: { type: Number, required: true },
+    maxSalary: { type: Number, default: 0 },
 
-    maxSalary: { type: Number, required: true },
+    compensationType: {type: String, default: "per month"},
 
     jobType: { type: String, required: true, index: true },
 

@@ -146,7 +146,7 @@ export const linkedinRegister = async (req, res) => {
         client_secret: process.env.LINKEDIN_CLIENT_SECRET,
         redirect_uri: "https://project1-job-listing-frontend.vercel.app/linkedin/callback",
       }).toString(),
-      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" }}
     )
 
     const accessToken = tokenResponse.data.access_token

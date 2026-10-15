@@ -17,7 +17,7 @@ export const JobCard = React.memo(({ job, handleApply, applied, loadingApply }) 
                         💼 {job.jobType}
                     </span>
                     <span className="bg-slate-100 px-3 py-1 rounded-full">
-                        💰 ₹{job.minSalary} – ₹{job.maxSalary}
+                        💰 {job.minSalary === 0 && job.maxSalary === 0 ? `Not Specified` : `₹${job.minSalary} – ₹${job.maxSalary}`}
                     </span>
                 </div>
             </div>
@@ -42,13 +42,29 @@ export const JobCard = React.memo(({ job, handleApply, applied, loadingApply }) 
                     </p>
                 </section>
 
-                <section>
-                    <h2 className="text-lg font-semibold text-slate-800 mb-2">
-                        Qualifications
-                    </h2>
-                    <p className="text-slate-600 leading-relaxed">
-                        {job.jobQual}
-                    </p>
+                <section className="space-y-2">
+
+                    <h2 className="text-lg font-semibold text-slate-800 mb-2">Requirements</h2>
+                    <div>
+                        <h3 className="text-md font-semibold text-slate-800 mb-2">
+                            1. Minimum Requirements
+                        </h3>
+                        <p className="text-slate-600 leading-relaxed">
+                            {job.minJobQual}
+                        </p>
+                    </div>
+
+                    {job.preferredJobQual && (
+                        <div>
+                            <h3 className="text-md font-semibold text-slate-800 mb-2">
+                                2. Preferred Requirements
+                            </h3>
+                            <p className="text-slate-600 leading-relaxed">
+                                {job.preferredJobQual}
+                            </p>
+                        </div>
+                    )
+                    }
                 </section>
 
             </div>

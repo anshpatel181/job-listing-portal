@@ -15,7 +15,8 @@ export const EditJobs = () => {
         jobTitle: "",
         jobDesc: "",
         jobRes: "",
-        jobQual: "",
+        minJobQual: "",
+        preferredJobQual: "",
         jobLoc: "",
         minSalary: "",
         maxSalary: "",
@@ -30,6 +31,8 @@ export const EditJobs = () => {
                 const jobs = await getMyJobs();
                 const job = jobs.jobs.find((j) => j._id.toString() === id.toString());
 
+                console.log(job)
+
                 if (!job) {
                     toast.error("Job not found");
                     navigate("/employer/jobs");
@@ -40,7 +43,8 @@ export const EditJobs = () => {
                     jobTitle: job.jobTitle || "",
                     jobDesc: job.jobDesc || "",
                     jobRes: job.jobRes || "",
-                    jobQual: job.jobQual || "",
+                    minJobQual: job.minJobQual || "",
+                    preferredJobQual: job.preferredJobQual || "",
                     jobLoc: job.jobLoc || "",
                     minSalary: job.minSalary || "",
                     maxSalary: job.maxSalary || "",
@@ -69,7 +73,8 @@ export const EditJobs = () => {
         jobTitle,
         jobDesc,
         jobRes,
-        jobQual,
+        minJobQual,
+        preferredJobQual,
         jobLoc,
         minSalary,
         maxSalary,
@@ -83,10 +88,11 @@ export const EditJobs = () => {
         jobTitle &&
         jobDesc &&
         jobRes &&
-        jobQual &&
+        minJobQual &&
+        preferredJobQual ||
         jobLoc &&
-        minSalary &&
-        maxSalary &&
+        minSalary ||
+        maxSalary ||
         jobType &&
         !isSalaryInvalid;
 
@@ -95,8 +101,16 @@ export const EditJobs = () => {
         setSaving(true);
 
         try {
-            await updateJob(id, jobInput);
-            navigate("/employer/jobs");
+            const result = await updateJob(id, jobInput);
+
+            if (!result.ok) {
+                toast.error("Failed to Update Job, Please try again.")
+            }
+
+            else {
+                toast.success("Job Updated Successfully")
+                navigate("/employer/jobs");
+            }
         } catch (error) {
             toast.error("Failed to update job");
         } finally {
@@ -229,15 +243,28 @@ export const EditJobs = () => {
                                 />
 
                                 <label className="block text-sm font-medium mb-1">
-                                    Qualifications
+                                    Min Qualifications
                                 </label>
                                 <textarea
                                     rows="3"
                                     className={inputClass}
-                                    name="jobQual"
-                                    value={jobQual}
+                                    name="minJobQual"
+                                    value={minJobQual}
                                     onChange={handleInputChange}
-                                    placeholder="Qualifications"
+                                    placeholder="Minimum Qualifications"
+                                    required
+                                />
+
+                                <label className="block text-sm font-medium mb-1">
+                                    Preferred Qualifications
+                                </label>
+                                <textarea
+                                    rows="3"
+                                    className={inputClass}
+                                    name="preferredJobQual"
+                                    value={preferredJobQual}
+                                    onChange={handleInputChange}
+                                    placeholder="Preferred Qualifications"
                                     required
                                 />
                             </div>

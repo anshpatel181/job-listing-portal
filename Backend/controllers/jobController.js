@@ -1,14 +1,24 @@
 import Job from "../models/Job.js";
+import Profile from "../models/Profile.js";
 
 export const createJob = async (req, res) => {
   try {
+
+    const profile = await Profile.findOne({userId: req.user.id})
+
+    if(!profile) {
+      return res.status(404).json({message: "Create a company profile before posting any job"})
+    }
+
     const job = await Job.create({
       employer: req.user.id,
+      employerProfileId: profile._id,
       ...req.body,
     });
 
     res.status(201).json(job);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Failed to create job" });
   }
 };
@@ -117,13 +127,14 @@ export const getFilteredJobs = async (req, res) => {
 
     const [totalJobs, jobs] = await Promise.all([
       Job.countDocuments(query),
-      Job.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean().populate("employerProfileId", "companyName website").select("jobTitle jobLoc jobType minSalary maxSalary createdAt"),
+      Job.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).lean().populate("employerProfileId", "companyName website").select("jobTitle jobLoc jobType minSalary maxSalary compensationType createdAt"),
     ]);
-    
+
     res
       .status(200)
       .json({ jobs, totalJobs, totalPages: Math.ceil(totalJobs / 5) });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Failed to fetch jobs" });
   }
 };

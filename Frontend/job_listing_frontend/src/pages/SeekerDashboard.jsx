@@ -3,8 +3,12 @@ import { DashboardNavbar } from "../components/DashboardNavbar";
 import { searchJobs } from "../services/jobService";
 import { getSavedJobs } from "../services/userService";
 import { useQuery } from "@tanstack/react-query";
+import ButtonLoader from "../components/loaders/ButtonLoader";
+import { useState } from "react";
 
 export const SeekerDashboard = () => {
+
+  const [loading, setLoading] = useState(true)
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -37,7 +41,7 @@ export const SeekerDashboard = () => {
 
   const { data: allJobs, isPending, isError, error } = useQuery({
     queryKey: ["allJobs"],
-    queryFn: searchJobs
+    queryFn: searchJobs,
   })
 
   const { data: applications } = useQuery({
@@ -47,13 +51,16 @@ export const SeekerDashboard = () => {
 
   const { data: savedJobs } = useQuery({
     queryKey: ["savedJobs"],
-    queryFn: getSavedJobs
+    queryFn: getSavedJobs,
   })
+
+  loading && (
+    <ButtonLoader />
+  )
 
   return (
     <>
       <DashboardNavbar />
-
       <div className="min-h-screen bg-slate-100 p-4 sm:p-6">
         <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
 

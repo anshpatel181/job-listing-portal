@@ -9,18 +9,22 @@ export const CreateJob = () => {
         jobTitle: "",
         jobDesc: "",
         jobRes: "",
-        jobQual: "",
+        minJobQual: "",
+        preferredJobQual: "",
         jobLoc: "",
         minSalary: "",
         maxSalary: "",
         jobType: "",
     });
 
+    const [compensationType, setCompensationType] = useState("per month")
+
     const [success, setSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
         setJobInput((prev) => ({
             ...prev,
             [name]: value,
@@ -31,7 +35,8 @@ export const CreateJob = () => {
         jobTitle,
         jobDesc,
         jobRes,
-        jobQual,
+        minJobQual,
+        preferredJobQual,
         jobLoc,
         minSalary,
         maxSalary,
@@ -42,33 +47,44 @@ export const CreateJob = () => {
         minSalary && maxSalary && Number(minSalary) > Number(maxSalary);
 
     const isFormValid =
-        jobTitle &&
+        jobTitle.length &&
         jobDesc &&
         jobRes &&
-        jobQual &&
+        minJobQual &&
+        preferredJobQual &&
         jobLoc &&
         minSalary &&
         maxSalary &&
         jobType &&
         !isSalaryInvalid;
 
-    const handlePublishJobSubmit = (e) => {
+    const handlePublishJobSubmit = async (e) => {
         e.preventDefault();
-        console.log(jobInput);
         setIsLoading(true)
-        createJob(jobInput);
-        toast.success("Job Posted Successfully")
+        const result = await createJob(jobInput);
+        const data = await result.json()
+
+        console.log(result)
+        console.log(data)
+        if (!result.ok) {
+            toast.error("Failed to Create job")
+        }
+
+        else {
+            toast.success("Job Posted Successfully")
+        }
+        setIsLoading(false)
         setJobInput({
             jobTitle: "",
             jobDesc: "",
             jobRes: "",
-            jobQual: "",
+            minJobQual: "",
+            preferredJobQual: "",
             jobLoc: "",
             minSalary: "",
             maxSalary: "",
             jobType: ""
         })
-        setIsLoading(false)
     }
 
     const inputClass =
@@ -198,16 +214,30 @@ export const CreateJob = () => {
 
                                     <div>
                                         <label className="block text-sm font-medium mb-1">
-                                            Qualifications
+                                            Minimum Qualifications
                                         </label>
                                         <textarea
                                             rows="3"
                                             className={inputClass}
                                             placeholder="Required skills or experience"
-                                            name="jobQual"
-                                            value={jobQual}
+                                            name="minJobQual"
+                                            value={minJobQual}
                                             onChange={handleInputChange}
                                             required
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium mb-1">
+                                            Preferred Qualifications (optional)
+                                        </label>
+                                        <textarea
+                                            rows="3"
+                                            className={inputClass}
+                                            placeholder="Preferred skills or experience"
+                                            name="preferredJobQual"
+                                            value={preferredJobQual}
+                                            onChange={handleInputChange}
                                         />
                                     </div>
                                 </div>
@@ -215,13 +245,17 @@ export const CreateJob = () => {
 
                             <section>
                                 <h2 className="text-lg font-semibold text-slate-800 mb-4">
-                                    Compensation
+                                    Compensation <span className="text-sm text-gray-600/80">(Optional)</span>
+                                    <select className="ml-2 text-[13px] font-normal border border-slate-300 rounded-lg px-2 py-1 focus:ring-2 focus:ring-blue-500" value={compensationType} onChange={(e) => setCompensationType(e.target.value)}>
+                                        <option value="per month">Per Month</option>
+                                        <option value="per annum">Per Annum</option>
+                                    </select>
                                 </h2>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium mb-1">
-                                            Minimum Salary
+                                            Minimum Salary ({compensationType})
                                         </label>
                                         <input
                                             type="number"
@@ -231,12 +265,13 @@ export const CreateJob = () => {
                                             value={minSalary}
                                             onChange={handleInputChange}
                                             required
+                                            min={0}
                                         />
                                     </div>
 
                                     <div>
                                         <label className="block text-sm font-medium mb-1">
-                                            Maximum Salary
+                                            Maximum Salary ({compensationType})
                                         </label>
                                         <input
                                             type="number"
@@ -246,6 +281,7 @@ export const CreateJob = () => {
                                             value={maxSalary}
                                             onChange={handleInputChange}
                                             required
+                                            min={0}
                                         />
                                     </div>
                                 </div>
@@ -282,23 +318,39 @@ export const CreateJob = () => {
                             This is how your job will appear to job seekers
                         </p>
 
-                        <div className="space-y-3">
-                            <h3 className="text-xl font-bold text-blue-600">
-                                {jobTitle || "Job Title"}
-                            </h3>
-
-                            <p className="text-sm text-slate-600">
-                                📍 {jobLoc || "Location"}
+                        <div className="space-y-2">
+                            <p className="text-sm text-slate-700 font-normal">
+                                <span className="font-bold text-blue-500">Job Title:</span> {jobTitle || "Job Title"}
                             </p>
 
-                            <p className="text-sm text-slate-700 whitespace-pre-line">
-                                {jobDesc || "Job description will appear here."}
+                            <p className="text-sm text-slate-700 whitespace-pre-line font-normal">
+                                <span className="font-bold text-blue-500">Job Description:</span> {jobDesc || "Job description will appear here."}
+                            </p>
+
+                            <p className="text-sm text-slate-700 font-normal">
+                                <span className="font-bold text-blue-500">Job Location:</span> {jobLoc || "Location"}
+                            </p>
+
+                            <p className="text-sm text-slate-700 whitespace-pre-line font-normal">
+                                <span className="font-bold text-blue-500">Job Type:</span> {jobType || "Job Type."}
+                            </p>
+
+                            <p className="text-sm text-slate-700 whitespace-pre-line font-normal">
+                                <span className="font-bold text-blue-500">Job Responsibilities:</span> <br /> {jobRes || "Job Responsibilities."}
+                            </p>
+
+                            <p className="text-sm text-slate-700 whitespace-pre-line font-normal">
+                                <span className="font-bold text-blue-500">Minimum Qualifications:</span> <br /> {minJobQual || "Minimum Qualifications."}
+                            </p>
+
+                            <p className="text-sm text-slate-700 whitespace-pre-line font-normal">
+                                <span className="font-bold text-blue-500">Preferred Qualifications:</span> <br /> {preferredJobQual || "Preferred Qualifications."}
                             </p>
 
                             <p className="text-sm text-slate-700">
-                                💰{" "}
+                                <span className="font-bold text-blue-500">Salary Range: </span>
                                 {minSalary && maxSalary
-                                    ? `₹${minSalary} – ₹${maxSalary}`
+                                    ? `₹${minSalary} – ₹${maxSalary} ${compensationType.toUpperCase()}`
                                     : "Salary range"}
                             </p>
                         </div>

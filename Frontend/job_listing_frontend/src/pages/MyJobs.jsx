@@ -156,7 +156,7 @@ export const MyJobs = () => {
                       </h2>
 
                       <p className="text-sm text-slate-600 mt-1">
-                        📍 {job.jobLoc} • 💰 ₹{job.minSalary} – ₹{job.maxSalary}
+                        📍 {job.jobLoc} • Salary {(job.minSalary === 0 && job.minSalary === 0) ? "Not Disclosed" : `₹${job.minSalary} – ₹${job.maxSalary} ${job.compensationType}`}
                       </p>
 
                       <p className="text-xs text-slate-400 mt-1">

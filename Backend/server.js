@@ -9,7 +9,6 @@ import userRoutes from "./routes/userRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import { connectCloudinary } from "./config/cloudinary.js";
 import helmet from "helmet";
-import Job from "./models/Job.js";
 
 const app = express();
 

@@ -22,7 +22,7 @@ export const toggleSaveJob = async (jobId) => {
   return data;
 };
 
-export const getSavedJobs = async () => {
+export const  getSavedJobs = async () => {
   const token = localStorage.getItem("token");
 
   const res = await fetch(

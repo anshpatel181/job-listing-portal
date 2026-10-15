@@ -16,11 +16,7 @@ export const createJob = async (jobData) => {
     body: JSON.stringify(jobData),
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to create job");
-  }
-
-  return res.json();
+  return res
 };
 
 export const getMyJobs = async (filters = {}) => {
@@ -44,11 +40,7 @@ export const updateJob = async (jobId, jobData) => {
     body: JSON.stringify(jobData),
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to update job");
-  }
-
-  return res.json();
+  return res
 };
 
 export const deleteJob = async (jobId) => {
@@ -56,7 +48,7 @@ export const deleteJob = async (jobId) => {
     method: "DELETE",
     headers: getAuthHeaders(),
   });
-  
+
   if (!res.ok) {
     throw new Error("Failed to delete job");
   }
@@ -67,11 +59,11 @@ export const deleteJob = async (jobId) => {
 export const searchJobs = async (filters) => {
   const params = new URLSearchParams(filters);
 
-  const res = await fetch(
-    `${BASE_URL}?${params.toString()}`
+  const res = await fetch(`${BASE_URL}?${params.toString()}`
   );
-
+  
   const data = await res.json();
+  console.log(data)
 
   if (!res.ok) {
     throw new Error(data.message || "Failed to fetch jobs");

@@ -37,7 +37,7 @@ export const Login = () => {
     try {
       const data = await loginUser(formData);
 
-      if(data.success === false) {
+      if (data.success === false) {
         toast.error(data.message)
         return;
       }
@@ -182,7 +182,8 @@ export const Login = () => {
            hover:bg-blue-700 hover:shadow-lg active:scale-[0.98]
            transition-all duration-200"
               disabled={isLoading}>
-              {isLoading ? <ButtonLoader /> : "Login"}
+              {isLoading ?
+                <ButtonLoader /> : "Login"}
             </button>
           </form>
 

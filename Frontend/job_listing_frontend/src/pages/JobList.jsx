@@ -54,10 +54,6 @@ export const JobList = () => {
     queryFn: () => searchJobs({ keyword: debouncedKeyword, location: debouncedLocation, type: jobType, limit: 5, currentPage }),
   })
 
-  if(data) {
-    console.log(data);
-  }
-
   if(isError) {
     toast.error("Failed to load jobs")
     console.log(error);
@@ -181,7 +177,7 @@ export const JobList = () => {
                       <div className="flex flex-wrap gap-3 text-sm text-slate-600">
                         <span>📍 {job.jobLoc}</span>
                         <span>💼 {job.jobType}</span>
-                        <span>💰 ₹{job.minSalary} – ₹{job.maxSalary}</span>
+                        <span>💰 ₹{job.minSalary} – ₹{job.maxSalary} {job.compensationType}</span>
                       </div>
 
                       <p className="text-slate-600 text-sm line-clamp-2">

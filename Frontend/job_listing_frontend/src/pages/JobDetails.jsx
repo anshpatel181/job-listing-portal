@@ -22,6 +22,8 @@ export const JobDetails = () => {
         const res = await fetch(`${BASE_URL}/api/jobs/${id}`);
         const data = await res.json();
 
+        console.log(data)
+
         if (!res.ok) {
           toast.error("Job not found");
         }
